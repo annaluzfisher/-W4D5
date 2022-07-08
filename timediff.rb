@@ -24,8 +24,8 @@
     min
  end
 # linear o(n) because no matter input size, runs throught the array only one time.  good 
- p phase2(list)
- p phase1(list)
+#  p phase2(list)
+#  p phase1(list)
 
 list2 = [5,3,-7]
 
@@ -73,3 +73,75 @@ end
 # p summer2(array3)
 # p summer2(array4)
 # p summer2(array5)
+
+
+def anagram?(str1,str2)
+    letters = str1.split('')
+    anas = letters.permutation(str1.length).to_a
+
+    anas.include?(str2.split(''))
+
+end
+
+# o(n^n) for every letter
+
+#want to make a new array to store all possible anas of str 1
+#
+# p anagram?("gizmo", "sally")    #=> false
+# p anagram?("elvis", "lives")    #=> true
+
+def second_anagram?(str1, str2)
+    str2_arr = str2.split('')
+    
+    str1.each_char.with_index do |letter, i|
+        idx = str2_arr.find_index(letter)
+        return false if idx == nil
+
+        str2_arr.delete_at(idx)
+    end
+
+    return str2_arr.empty?
+end
+
+# p second_anagram?("gizmo", "sally")    #=> false
+# p second_anagram?("elvis", "lives")    #=> true
+
+
+def third_anagram?(str1, str2)
+    alpha_str1 = str1.split('').sort #quicksort is usually quadratic(or nlog n in ruby). but splitting is linear.sort crushes. o(nlog n) or (n^2)
+    alpha_str2 = str2.split('').sort
+
+    alpha_str1 == alpha_str2
+end
+
+# p third_anagram?("gizmo", "sally")    #=> false
+# p third_anagram?("elvis", "lives")    #=> true
+
+def fourth_anagram?(str1, str2)
+    hash = Hash.new(0)
+    together = str1 + str2
+    together.each_char {|c| hash[c] += 1}
+    hash.values.all?(&:even?)
+    
+end
+    # str1.each_char do |letter|
+    #     if !letterHash.has_key?(letter)
+    #         letterHash[letter] = 1
+    #     else
+    #         letterHash[letter] += 1
+    #     end
+    # end
+
+    # str2.each_char do |letter|
+    #     if !letterHash.has_key?(letter)
+    #         return false
+    #     else
+    #         letterHash[letter] -= 1
+    #     end
+    # end
+
+    # letterHash.values.all?(0)
+
+
+p fourth_anagram?("gizmo", "sally")    #=> false
+p fourth_anagram?("elvis", "lives")    #=> true
